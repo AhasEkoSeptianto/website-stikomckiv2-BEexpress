@@ -35,9 +35,10 @@ router.post('/mahasiswa/deleteMhs', mahasiswaController.deleteMhs);
 router.post('/mahasiswa/filterMhs', mahasiswaController.filterMhs);
 
 // broadcast dashboard
+router.get("/broadcast/allData", broadcastController.allData);
 router.post('/broadcast/addImage', broadcastController.addImage )
 router.post("/broadcast/addNews", isAuth , broadcastController.addNews );
-router.get("/broadcast/allData", broadcastController.allData);
+router.post('/broadcast/delete', isAuth, broadcastController.deleteNews);
 
 // setting dashboard
 router.post('/setting/change-name', settingController.changeName );
