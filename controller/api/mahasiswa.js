@@ -2,21 +2,28 @@ const mahasiswa = require('./../../models/mongodb/mahasiswa.js');
 
 
 exports.allMhs = async (req, res) => {
+	console.log(req.body);
 
-	var allMhs = await mahasiswa.find().sort({nama:1}).skip(req.body.skip * 8).limit(8);
-	var skip = req.body.skip * 8 ;
+	var allMhsShow = await mahasiswa.find().sort({nama:1}).skip((req.body.pages - 1) * 8).limit(8);
+
+	// skip return nilai no awal dari dari table
+	// misal request ke 1 maka akan direturn '8'-16
+	var skip_col = (req.body.pages - 1) * 8;
 
 	var allmhs = await mahasiswa.find();
 
-	var posPage = req.body.skip;
+	// return posisi page dari request dari berapa skip
+	var posPages = req.body.pages;
 
+	// ambil semua data dan dibagi / 8
+	// hasil nya akan menjadi antara float (1.5) atau round (1)
 	maxRound = allmhs.length / 8 ;
 
-	// jika maxround adalah float "3.123" maka dibulatkan 
+	// jika maxround adalah float "3.123" maka dibulatkan
 	// jika max round lebih float maka akan direturn + 1
-	max =  maxRound > Math.round(maxRound) ?  Math.round( maxRound + 1 ) : Math.round( maxRound ) ;
+	maxPages =  maxRound > Math.round(maxRound) ?  Math.round( maxRound + 1 ) : Math.round( maxRound ) ;
 
- 	res.send({result:'success', mhs: allMhs,skip:skip, max:max, page: posPage, allMhs: allmhs});
+ 	res.send({result:'success', mhs: allMhsShow, firstNumb:skip_col, maxPages:maxPages, posPages: posPages, allMhs: allmhs});
 }
 
 exports.addMhs = async (req, res) => {
@@ -26,17 +33,17 @@ exports.addMhs = async (req, res) => {
 	// get max nim from db to set auto generated
 	if (req.body.jurusan === "Teknik Informatika") {
 		Nim = await mahasiswa.find({jurusan: "teknik informatika"}).sort({nim: -1}).limit(1);
-		
+
 		if (Nim.length === 0){
 			Nim = 19110710000;
 		} else {
 			// increment nim
 			Nim = Nim[0].nim + 1 ;
-		}	
+		}
 	} else if (req.body.jurusan === "Sistem Informasi") {
-		
+
 		Nim = await mahasiswa.find({jurusan: "sistem informasi"}).sort({nim: -1}).limit(1);
-		
+
 		if (Nim.length === 0) {
 			Nim = 19120710000;
 		} else {
@@ -62,11 +69,11 @@ exports.addMhs = async (req, res) => {
 	try {
 		newMhs.save();
 	} catch {
-		newMhs = {msg: 'error'}; 
+		newMhs = {msg: 'error'};
 	}
 
 	res.send({result: 'success', mhs: newMhs});
-} 
+}
 
 exports.findMhs = async (req, res) => {
 
@@ -77,8 +84,6 @@ exports.findMhs = async (req, res) => {
 }
 
 exports.updateMhs = async (req, res) => {
-
-	console.log(req.body);
 
 	var mhs = await mahasiswa.findOneAndUpdate({_id: req.body.id}, {
 		nama: req.body.nama,
@@ -116,22 +121,22 @@ exports.filterMhs = async (req, res) => {
 	var filter_jurusan = await mahasiswa.find({jurusan: mhs});
 	if (filter_jurusan.length > 0) {
 		res.send({msg:'oke', filter: filter_jurusan})
-	}	
+	}
 
 	var filter_kelas = await mahasiswa.find({kelas: mhs});
 	if (filter_kelas.length > 0) {
 		res.send({msg:'oke', filter: filter_kelas})
-	}	
+	}
 
 	var filter_alamat = await mahasiswa.find({alamat: mhs});
 	if (filter_alamat.length > 0) {
 		res.send({msg:'oke', filter: filter_jurusan})
-	}	
+	}
 
 	var filter_notelp = await mahasiswa.find({notelp: mhs});
 	if (filter_notelp.length > 0) {
 		res.send({msg:'oke', filter: filter_notelp})
-	}	
+	}
 
 
 	// jika number
@@ -140,7 +145,7 @@ exports.filterMhs = async (req, res) => {
 	var filter_nim = await mahasiswa.find({nim: mhs});
 	if (filter_nim.length > 0) {
 		res.send({msg:'oke', filter: filter_nim})
-	}	
+	}
 
 	var filter_semester = await mahasiswa.find({semester: mhs});
 	if (filter_semester.length > 0) {
