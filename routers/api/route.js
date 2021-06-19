@@ -8,6 +8,7 @@ const CallUs = require("./../../models/mongodb/call_us");
 // controller
 const authController = require('./../../controller/api/auth');
 const mahasiswaController = require('./../../controller/api/mahasiswa');
+const dosenController = require('./../../controller/api/dosen');
 const broadcastController = require('./../../controller/api/broadcast');
 const settingController = require('./../../controller/api/setting');
 
@@ -33,6 +34,14 @@ router.post('/mahasiswa/findMhs', mahasiswaController.findMhs);
 router.post('/mahasiswa/updateMhs', mahasiswaController.updateMhs);
 router.post('/mahasiswa/deleteMhs', mahasiswaController.deleteMhs);
 router.post('/mahasiswa/filterMhs', mahasiswaController.filterMhs);
+
+// dosen dashboard
+router.post('/dosen', dosenController.allDosen);
+router.post('/dosen/addDosen', dosenController.addDosen);
+router.post('/dosen/dltDosen', dosenController.delete_dosen);
+router.post('/dosen/update_dosen', dosenController.update_dosen);
+router.post('/dosen/find_dosen', dosenController.find_dosen);
+router.post('/dosen/filter_dosen', dosenController.filter_dosen);
 
 // broadcast dashboard
 router.get("/broadcast/allData", broadcastController.allData);

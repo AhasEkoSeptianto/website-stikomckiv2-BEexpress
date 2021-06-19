@@ -92,7 +92,7 @@ exports.updateMhs = async (req, res) => {
 		kelas: req.body.kelas,
 		alamat: req.body.alamat,
 		notelp: req.body.notelp,
-	},{new: true})
+	},{new: true, useFindAndModify: false})
 
 	res.send({result: 'success', mahasiswa: mhs});
 }
