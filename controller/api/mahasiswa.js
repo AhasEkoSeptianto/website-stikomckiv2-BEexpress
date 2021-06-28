@@ -1,29 +1,10 @@
 const mahasiswa = require('./../../models/mongodb/mahasiswa.js');
 
-
 exports.allMhs = async (req, res) => {
-	console.log(req.body);
 
-	var allMhsShow = await mahasiswa.find().sort({nama:1}).skip((req.body.pages - 1) * 8).limit(8);
+	var allMhsShow = await mahasiswa.find().sort({nama:1});
 
-	// skip return nilai no awal dari dari table
-	// misal request ke 1 maka akan direturn '8'-16
-	var skip_col = (req.body.pages - 1) * 8;
-
-	var allmhs = await mahasiswa.find();
-
-	// return posisi page dari request dari berapa skip
-	var posPages = req.body.pages;
-
-	// ambil semua data dan dibagi / 8
-	// hasil nya akan menjadi antara float (1.5) atau round (1)
-	maxRound = allmhs.length / 8 ;
-
-	// jika maxround adalah float "3.123" maka dibulatkan
-	// jika max round lebih float maka akan direturn + 1
-	maxPages =  maxRound > Math.round(maxRound) ?  Math.round( maxRound + 1 ) : Math.round( maxRound ) ;
-
- 	res.send({result:'success', mhs: allMhsShow, firstNumb:skip_col, maxPages:maxPages, posPages: posPages, allMhs: allmhs});
+	res.send({status: 'ok', Mhs: allMhsShow});
 }
 
 exports.addMhs = async (req, res) => {
@@ -99,7 +80,6 @@ exports.updateMhs = async (req, res) => {
 
 exports.deleteMhs = async (req, res) => {
 
-	console.log(req.body)
 
 	var mhs = await mahasiswa.deleteOne({_id: req.body.id}, (err) =>{
 		if (err) return handleError(err);
@@ -112,43 +92,25 @@ exports.deleteMhs = async (req, res) => {
 exports.filterMhs = async (req, res) => {
 
 	var mhs = req.body.mhs.toLowerCase();
+	var filteringByString = ['nama','jurusan','kelas','alamat'];
+	var filteringByNumb = ['nim','semester','notelp'];
 
-	var filter_name = await mahasiswa.find({nama: mhs});
-	if (filter_name.length > 0) {
-		return res.send({msg:'oke', filter: filter_name})
-	}
+	filteringByString.forEach(async(val) => {
+		let filter = await mahasiswa.find({[val]: mhs});
+		if ( filter.length > 0 ) {
+			res.send({status: 'ok', filter: filter})
+		}
+	})
 
-	var filter_jurusan = await mahasiswa.find({jurusan: mhs});
-	if (filter_jurusan.length > 0) {
-		res.send({msg:'oke', filter: filter_jurusan})
-	}
-
-	var filter_kelas = await mahasiswa.find({kelas: mhs});
-	if (filter_kelas.length > 0) {
-		res.send({msg:'oke', filter: filter_kelas})
-	}
-
-	var filter_alamat = await mahasiswa.find({alamat: mhs});
-	if (filter_alamat.length > 0) {
-		res.send({msg:'oke', filter: filter_jurusan})
-	}
-
-	var filter_notelp = await mahasiswa.find({notelp: mhs});
-	if (filter_notelp.length > 0) {
-		res.send({msg:'oke', filter: filter_notelp})
-	}
-
-
-	// jika number
 	var mhs = mhs.replace(/\D+/g, '');
+	filteringByNumb.forEach( async(val) => {
+		if (val === 'notelp') {
+			mhs = mhs.slice(1);
+		}
+		let filter = await mahasiswa.find({[val]: mhs});
+		if ( filter.length > 0 ) {
+			res.send({status: 'ok', filter: filter});
+		}
+	} )
 
-	var filter_nim = await mahasiswa.find({nim: mhs});
-	if (filter_nim.length > 0) {
-		res.send({msg:'oke', filter: filter_nim})
-	}
-
-	var filter_semester = await mahasiswa.find({semester: mhs});
-	if (filter_semester.length > 0) {
-		res.send({msg:'oke', filter: filter_semester})
-	}
 }
