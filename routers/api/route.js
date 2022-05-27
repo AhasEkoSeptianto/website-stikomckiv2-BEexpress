@@ -7,6 +7,7 @@ const CallUs = require("./../../models/mongodb/call_us");
 
 // controller
 const authController = require('./../../controller/api/auth');
+const adminController = require('./../../controller/api/admin')
 const mahasiswaController = require('./../../controller/api/mahasiswa');
 const dosenController = require('./../../controller/api/dosen');
 const broadcastController = require('./../../controller/api/broadcast');
@@ -26,6 +27,10 @@ router.get('/mhs-statistik', StatistikController.mahasiswa);
 // login
 router.post("/login", authController.login );
 router.post('/is-auth', isAuth, authController.is_auth );
+
+// admin dashboard
+router.get('/admin', adminController.Admin)
+router.post('/admin/add', adminController.AddAdmin)
 
 // mahasiswa dashboard
 router.post('/mahasiswa', mahasiswaController.allMhs);
