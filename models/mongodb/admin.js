@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var uniqueValidator = require('mongoose-unique-validator');
 
 const AdminScema = new mongoose.Schema({
 	name: { type: String, required: true },
@@ -8,4 +9,5 @@ const AdminScema = new mongoose.Schema({
 	time: { type: Date, default: Date.now },
 });
 
+AdminScema.plugin(uniqueValidator, { message: '{PATH} must be unique' })
 module.exports = guest = mongoose.model("admin", AdminScema);
