@@ -31,6 +31,8 @@ router.post('/is-auth', isAuth, authController.is_auth );
 // admin dashboard
 router.get('/admin', adminController.Admin)
 router.post('/admin/add', adminController.AddAdmin)
+router.put('/admin/edit', adminController.EditAdmin)
+router.delete('/admin/delete', adminController.DeleteAdmin)
 
 // mahasiswa dashboard
 router.post('/mahasiswa', mahasiswaController.allMhs);

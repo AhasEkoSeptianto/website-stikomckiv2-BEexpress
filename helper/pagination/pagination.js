@@ -21,6 +21,6 @@ exports.ValidatePagination = (obj_data) => {
     };
   }
 
-  let result = { ...obj_data, page: startIndex, limit: limit };
+  let result = { ...obj_data, page: startIndex < 1 ? 0 : startIndex , limit: limit };
   return result;
 };
