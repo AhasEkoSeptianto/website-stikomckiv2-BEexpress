@@ -29,10 +29,10 @@ router.post("/login", authController.login );
 router.post('/is-auth', isAuth, authController.is_auth );
 
 // admin dashboard
-router.get('/admin', adminController.Admin)
-router.post('/admin/add', adminController.AddAdmin)
-router.put('/admin/edit', adminController.EditAdmin)
-router.delete('/admin/delete', adminController.DeleteAdmin)
+router.get('/admin', isAuth , adminController.Admin)
+router.post('/admin/add', isAuth, adminController.AddAdmin)
+router.put('/admin/edit', isAuth, adminController.EditAdmin)
+router.delete('/admin/delete', isAuth, adminController.DeleteAdmin)
 
 // mahasiswa dashboard
 router.post('/mahasiswa', mahasiswaController.allMhs);

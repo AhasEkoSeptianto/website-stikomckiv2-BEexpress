@@ -5,10 +5,12 @@ const { ShowErrUnique } = require('../../helper/showErr/showErr')
 const { ValidatePagination } = require('../../helper/pagination/pagination')
 
 exports.Admin = async (req, res) => {
-    
+    const { name, email } = req.query
+    const queryEx = { name: {'$regex': name}, email: { '$regex': email } }
+
     const totalAdmin =  await AdminModels.count({}, (err, count)=> (count))
     const { page, limit } = await ValidatePagination(req.query)
-    const listAdmin = await AdminModels.find({}).sort({ time: -1 }).skip(page).limit(limit)
+    const listAdmin = await AdminModels.find(queryEx).sort({ time: -1 }).skip(page).limit(limit)
     
     return res.status(200).json({ data: listAdmin, rows: totalAdmin })
 }
