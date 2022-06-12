@@ -1,10 +1,17 @@
+const { ValidatePagination } = require('../../helper/pagination/pagination.js');
+const { IsIncludes } = require('../../helper/RegexDB/contains.js');
 const mahasiswa = require('./../../models/mongodb/mahasiswa.js');
 
 exports.allMhs = async (req, res) => {
+	const { nama, nim, jurusan, kelas, semester } = req.query
+	const { page, limit } = await ValidatePagination(req.query)
+	
+	let queryExe = { nim: IsIncludes(nim.toString()), nama: IsIncludes(nama), jurusan: IsIncludes(jurusan), kelas: IsIncludes(kelas)}
+	
+	var totalMhs = await mahasiswa.count({}, (err, count) => (count))
+	var allMhsShow = await mahasiswa.find(queryExe).sort({createdAt:-1}).skip(page).limit(limit);
 
-	var allMhsShow = await mahasiswa.find().sort({nama:1});
-
-	res.send({status: 'ok', Mhs: allMhsShow});
+	res.status(200).json({ data: allMhsShow, status: 'success', rows: totalMhs })
 }
 
 exports.addMhs = async (req, res) => {
@@ -37,7 +44,7 @@ exports.addMhs = async (req, res) => {
 
 
 	var newMhs = new mahasiswa({
-		nim: Nim,
+		nim: Nim.toString(),
 		nama: req.body.nama.toLowerCase(),
 		jurusan: req.body.jurusan.toLowerCase(),
 		semester: req.body.semester,
@@ -65,8 +72,8 @@ exports.findMhs = async (req, res) => {
 }
 
 exports.updateMhs = async (req, res) => {
-
-	var mhs = await mahasiswa.findOneAndUpdate({_id: req.body.id}, {
+	
+	var mhs = await mahasiswa.findOneAndUpdate({_id: req.query.unique_id}, {
 		nama: req.body.nama,
 		jurusan: req.body.jurusan,
 		semester: req.body.semester,
@@ -75,16 +82,16 @@ exports.updateMhs = async (req, res) => {
 		notelp: req.body.notelp,
 	},{new: true, useFindAndModify: false})
 
-	res.send({result: 'success', mahasiswa: mhs});
+	res.send({msg: 'success update mahasiswa', mahasiswa: mhs});
 }
 
 exports.deleteMhs = async (req, res) => {
 
 
-	var mhs = await mahasiswa.deleteOne({_id: req.body.id}, (err) =>{
+	var mhs = await mahasiswa.deleteOne({_id: req.query.unique_id}, (err) =>{
 		if (err) return handleError(err);
 
-		res.send({result: 'success'});
+		res.send({msg: 'success deleted mahasiswa'});
 
 	})
 }

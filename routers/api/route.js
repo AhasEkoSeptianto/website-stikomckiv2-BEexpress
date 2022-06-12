@@ -35,12 +35,12 @@ router.put('/admin/edit', isAuth, adminController.EditAdmin)
 router.delete('/admin/delete', isAuth, adminController.DeleteAdmin)
 
 // mahasiswa dashboard
-router.post('/mahasiswa', mahasiswaController.allMhs);
-router.post('/mahasiswa/addMhs', mahasiswaController.addMhs );
+router.get('/mahasiswa', isAuth, mahasiswaController.allMhs);
+router.post('/mahasiswa/add', mahasiswaController.addMhs );
 router.post('/mahasiswa/findMhs', mahasiswaController.findMhs);
-router.post('/mahasiswa/updateMhs', mahasiswaController.updateMhs);
-router.post('/mahasiswa/deleteMhs', mahasiswaController.deleteMhs);
-router.post('/mahasiswa/filterMhs', mahasiswaController.filterMhs);
+router.put('/mahasiswa/update', mahasiswaController.updateMhs);
+router.delete('/mahasiswa/delete', mahasiswaController.deleteMhs);
+router.post('/mahasiswa/filter', mahasiswaController.filterMhs);
 
 // dosen dashboard
 router.post('/dosen', dosenController.allDosen);

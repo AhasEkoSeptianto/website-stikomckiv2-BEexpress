@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const newSchema  = new mongoose.Schema({
-	nim : { type: Number, unique: true, required:true },
+	nim : { type: String, unique: true, required:true },
 	nama : { type: String, unique: true, required: true },
 	jurusan : { type: String, required: true },
 	semester : { type: Number, required: true },
