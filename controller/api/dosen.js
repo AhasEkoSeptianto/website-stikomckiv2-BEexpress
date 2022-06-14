@@ -1,26 +1,20 @@
+const { ValidatePagination } = require('../../helper/pagination/pagination');
+const { IsIncludes } = require('../../helper/RegexDB/contains');
 const dosenModel = require('./../../models/mongodb/dosen');
 
 exports.allDosen = async (req, res) => {
-	var allDosenShow = await dosenModel.find().sort({nama:1}).skip((req.body.pages - 1) * 8).limit(8);
+	const { nid, nama, email, notelp, alamat } = req.query
+	let queryExe = { nid: IsIncludes(nid + '') ,nama: IsIncludes(nama), email: IsIncludes(email), notelp: IsIncludes(notelp), alamat: IsIncludes(alamat)}
+	// let queryExe = {}
+	const { page, limit } = await ValidatePagination(req.query)
+	const allDosen = await dosenModel.find(queryExe).sort({createdAt:-1}).skip(page).limit(limit)
 
-	// skip return nilai no awal dari dari table
-	// misal request ke 1 maka akan direturn '8'-16
-	var skip_col = (req.body.pages - 1) * 8;
+	
+	// allDosen.forEach(item => {
+	// 	dosenModel.findOneAndUpdate({ _id: item._id }, { nid: item.nid.toString() }, {new: true, useFindAndModify: false})
+	// })
 
-	var allDosen = await dosenModel.find();
-
-	// return posisi page dari request dari berapa skip
-	var posPages = req.body.pages;
-
-	// ambil semua data dan dibagi / 8
-	// hasil nya akan menjadi antara float (1.5) atau round (1)
-	maxRound = allDosen.length / 8 ;
-
-	// jika maxround adalah float "3.123" maka dibulatkan
-	// jika max round lebih float maka akan direturn + 1
-	maxPages =  maxRound > Math.round(maxRound) ?  Math.round( maxRound + 1 ) : Math.round( maxRound ) ;
-
- 	res.send({result:'success', dosen: allDosenShow, firstNumb:skip_col, maxPages:maxPages, posPages: posPages, allDosen: allDosen});
+ 	res.send({result:'success', dosen: allDosen});
 
 }
 
@@ -46,7 +40,7 @@ exports.addDosen = async (req, res) => {
 
 	try {
 		await newDosen.save();
-		res.send({result:'success', dosen: newDosen});
+		res.send({msg:'Success add dosen', dosen: newDosen});
 	} catch(err) {
 
 		if (err.keyValue['nama']) {
@@ -61,12 +55,12 @@ exports.addDosen = async (req, res) => {
 
 exports.delete_dosen = async (req, res) => {
 
-	var dosen = dosenModel.findOneAndRemove({_id: req.body.id}, (err, dosen) => {
+	var dosen = dosenModel.findOneAndRemove({_id: req.query.unique_id}, (err, dosen) => {
 		if (err) {
 			throw new err;
 		}
 
-		res.send({result: 'success', dosen: dosen});
+		res.send({msg: 'success delete dosen', dosen: dosen});
 	})
 
 }
@@ -87,16 +81,16 @@ exports.find_dosen = async (req, res) => {
 exports.update_dosen = async (req, res) => {
 
 	var update_dosen = await dosenModel.findOneAndUpdate({
-		_id: req.body.id
+		_id: req.query.unique_id
 	}, {
 		nid: req.body.nid,
 		nama: req.body.nama,
 		email: req.body.email,
 		alamat: req.body.alamat,
 		notelp: req.body.notelp,
-	} , {new : true, useFindAndModify: false});
-
-	res.send({status: 'ok', dosen: update_dosen});
+	} , {new: true, useFindAndModify: false});
+	
+	res.send({status: 'ok', msg: 'Success update dosen',  dosen: update_dosen});
 
 }
 

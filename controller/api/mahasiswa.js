@@ -6,7 +6,7 @@ exports.allMhs = async (req, res) => {
 	const { nama, nim, jurusan, kelas, semester } = req.query
 	const { page, limit } = await ValidatePagination(req.query)
 	
-	let queryExe = { nim: IsIncludes(nim.toString()), nama: IsIncludes(nama), jurusan: IsIncludes(jurusan), kelas: IsIncludes(kelas)}
+	let queryExe = { nim: IsIncludes(nim + ''), nama: IsIncludes(nama), jurusan: IsIncludes(jurusan), kelas: IsIncludes(kelas)}
 	
 	var totalMhs = await mahasiswa.count({}, (err, count) => (count))
 	var allMhsShow = await mahasiswa.find(queryExe).sort({createdAt:-1}).skip(page).limit(limit);

@@ -43,10 +43,10 @@ router.delete('/mahasiswa/delete', mahasiswaController.deleteMhs);
 router.post('/mahasiswa/filter', mahasiswaController.filterMhs);
 
 // dosen dashboard
-router.post('/dosen', dosenController.allDosen);
-router.post('/dosen/addDosen', dosenController.addDosen);
-router.post('/dosen/dltDosen', dosenController.delete_dosen);
-router.post('/dosen/update_dosen', dosenController.update_dosen);
+router.get('/dosen', dosenController.allDosen);
+router.post('/dosen/add', dosenController.addDosen);
+router.delete('/dosen/delete', dosenController.delete_dosen);
+router.put('/dosen/update', dosenController.update_dosen);
 router.post('/dosen/find_dosen', dosenController.find_dosen);
 router.post('/dosen/filter_dosen', dosenController.filter_dosen);
 
