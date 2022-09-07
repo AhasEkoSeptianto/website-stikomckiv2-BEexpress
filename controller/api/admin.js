@@ -3,10 +3,11 @@ const validator = require('email-validator')
 const { phone } = require('phone')
 const { ShowErrUnique } = require('../../helper/showErr/showErr')
 const { ValidatePagination } = require('../../helper/pagination/pagination')
+const { IsIncludes } = require('../../helper/RegexDB/contains')
 
 exports.Admin = async (req, res) => {
     const { name, email } = req.query
-    const queryEx = { name: {'$regex': name}, email: { '$regex': email } }
+    const queryEx = { name: IsIncludes(name), email: IsIncludes(email) }
 
     const totalAdmin =  await AdminModels.count({}, (err, count)=> (count))
     const { page, limit } = await ValidatePagination(req.query)

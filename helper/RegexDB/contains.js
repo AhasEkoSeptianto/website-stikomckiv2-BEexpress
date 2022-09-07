@@ -1,3 +1,3 @@
 exports.IsIncludes = (value) => {
-    return { '$regex': value }
+    return { '$regex': (value + '') }
 }

@@ -5,16 +5,12 @@ const dosenModel = require('./../../models/mongodb/dosen');
 exports.allDosen = async (req, res) => {
 	const { nid, nama, email, notelp, alamat } = req.query
 	let queryExe = { nid: IsIncludes(nid + '') ,nama: IsIncludes(nama), email: IsIncludes(email), notelp: IsIncludes(notelp), alamat: IsIncludes(alamat)}
-	// let queryExe = {}
+	
 	const { page, limit } = await ValidatePagination(req.query)
 	const allDosen = await dosenModel.find(queryExe).sort({createdAt:-1}).skip(page).limit(limit)
+	var totalDosen = await dosenModel.count({}, (err, count) => (count))
 
-	
-	// allDosen.forEach(item => {
-	// 	dosenModel.findOneAndUpdate({ _id: item._id }, { nid: item.nid.toString() }, {new: true, useFindAndModify: false})
-	// })
-
- 	res.send({result:'success', dosen: allDosen});
+ 	res.send({result:'success', dosen: allDosen, rows: totalDosen});
 
 }
 
