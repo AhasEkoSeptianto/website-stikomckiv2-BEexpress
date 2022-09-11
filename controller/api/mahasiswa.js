@@ -3,9 +3,9 @@ const { IsIncludes } = require('../../helper/RegexDB/contains.js');
 const mahasiswa = require('./../../models/mongodb/mahasiswa.js');
 
 exports.allMhs = async (req, res) => {
+	console.log('here <====')
 	const { nama, nim, jurusan, kelas, semester } = req.query
 	const { page, limit } = await ValidatePagination(req.query)
-	
 	let queryExe = { nim: IsIncludes(nim + ''), nama: IsIncludes(nama), jurusan: IsIncludes(jurusan), kelas: IsIncludes(kelas)}
 	
 	var totalMhs = await mahasiswa.count({}, (err, count) => (count))

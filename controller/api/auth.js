@@ -8,11 +8,13 @@ exports.is_auth = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
+	console.log(req.body, '<<< ==== login')
 	let user = await User.find({
 		username: req.body.username,
 		password: req.body.password,
 	}); // check ke mongodb
 
+	console.log(user)
 	if (!user || user.length < 1) {
 		return res.status(200).json({msg:'user unknow' , login: false});
 	};

@@ -10,4 +10,4 @@ const AdminScema = new mongoose.Schema({
 });
 
 AdminScema.plugin(uniqueValidator, { message: '{PATH} must be unique' })
-module.exports = guest = mongoose.model("admin", AdminScema);
+module.exports = guest = mongoose.model("admins", AdminScema);

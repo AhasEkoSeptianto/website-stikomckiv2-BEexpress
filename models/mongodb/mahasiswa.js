@@ -11,4 +11,4 @@ const newSchema  = new mongoose.Schema({
 	tahun_ajaran: { type: String, required: true },
 },{timestamps: true})
 
-module.exports = mahasiswa = mongoose.model("mahasiswa", newSchema);
+module.exports = mahasiswa = mongoose.model("mahasiswas", newSchema);
