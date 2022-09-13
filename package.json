@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "start": "node server.js"
-  },
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src"
+    },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -12,6 +13,8 @@
     "mongodb": "^3.6.5",
     "mongoose": "^5.12.3",
     "mongoose-unique-validator": "^3.0.0",
-    "phone": "^3.1.19"
+    "netlify-lambda": "^2.0.15",
+    "phone": "^3.1.19",
+    "serverless-http": "^3.0.2"
   }
 }
