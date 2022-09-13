@@ -1,6 +1,6 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const port = 8080;
+const port = process.env.PORT || 3000;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
@@ -26,4 +26,4 @@ app.use(fileUpload());
 
 app.use("/api", require("./routers/api/route"));
 
-// app.listen(port, () => console.log("running at port 8080"));
+app.listen(port, () => console.log("running at port 8080"));
