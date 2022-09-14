@@ -25,10 +25,10 @@ exports.addNews = async (req, res) => {
 	res.send({ message: "Success Create Article" });
 };
 
-exports.allData = (req, res) => { 
-	let news = News.find({}, (err,newsDB)=> {
-		res.status(200).send(newsDB);
-	})
+exports.allData = async (req, res) => { 
+	let news = await News.find({}, (err,newsDB)=> (newsDB))
+	var totalArticle = await News.count({}, (err, count) => (count))
+	res.send({ message: 'Success Get Article', totalData:totalArticle, data: news  })
 };
 
 exports.addImage = async (req, res) => {
