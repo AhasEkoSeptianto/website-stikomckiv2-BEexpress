@@ -28,8 +28,7 @@ async function listFile(){
 }
 
 async function uploadMedia(file){
-    console.log('file > ', file)
-    file.mv('./my-temp/' + file.name)
+    file?.mv('./my-temp/' + file.name)
     try {
         const response = await drive.files.create({
             requestBody: {

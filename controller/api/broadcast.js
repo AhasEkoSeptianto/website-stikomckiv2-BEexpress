@@ -10,14 +10,14 @@ exports.addNews = async (req, res) => {
 
 	const data = {
 		judul: req.body.judul,
-		isiText: req.body.isiText,
+		content: req.body.content,
 		imgUrl: req.body.imgUrl,
 		MediaId: req.body.MediaId
 	};
 
 	const news = new News({
 		title: data.judul,
-		content: data.isiText,
+		content: data.content,
 		imageUrl: data.imgUrl,
 		MediaId: data.MediaId
 	});
@@ -28,11 +28,12 @@ exports.addNews = async (req, res) => {
 exports.allData = async (req, res) => { 
 	let news = await News.find({}, (err,newsDB)=> (newsDB))
 	var totalArticle = await News.count({}, (err, count) => (count))
+	console.log(news)
 	res.send({ message: 'Success Get Article', totalData:totalArticle, data: news  })
 };
 
 exports.addImage = async (req, res) => {
-	
+	console.log(req.files, '<=== files')
 	if (!req.files) {
 		return res.status(500).send({ msg: "file is not found" });
 	}
