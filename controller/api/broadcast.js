@@ -55,7 +55,7 @@ exports.addImage = async (req, res) => {
 	return res.send({
 		status: true,
 		name: req.files.name,
-		path: `https://drive.google.com/uc?id=${uploadedID}`,
+		path: `https://drive.google.com/uc?id=${uploadedID}`, 
 		MediaId: uploadedID
 	});
 }
