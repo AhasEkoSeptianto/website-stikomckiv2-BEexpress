@@ -28,30 +28,17 @@ exports.addNews = async (req, res) => {
 exports.allData = async (req, res) => { 
 	let news = await News.find({}, (err,newsDB)=> (newsDB))
 	var totalArticle = await News.count({}, (err, count) => (count))
-	console.log(news)
+
 	res.send({ message: 'Success Get Article', totalData:totalArticle, data: news  })
 };
 
 exports.addImage = async (req, res) => {
-	console.log(req.files, '<=== files')
 	if (!req.files) {
 		return res.status(500).send({ msg: "file is not found" });
 	}
+	console.log(req.files, '<=== files')
 	let uploadedID = await uploadMedia(req.files.file)
-
-	// const myFile = req.files.file;
-	// myFile.mv(`${__dirname}/../../public/${myFile.name}`, function (err) {
-	// 	if (err) {
-	// 		console.log(err);
-	// 		return res.status(500).send({ msg: "Error occured" });
-	// 	}
-
-	// 	return res.send({
-	// 		status: true,
-	// 		name: myFile.name,
-	// 		path: `/${myFile.name}`,
-	// 	});
-	// });
+	
 	return res.send({
 		status: true,
 		name: req.files.name,

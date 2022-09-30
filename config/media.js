@@ -29,9 +29,8 @@ exports.upload = async () => {
             },
         })
 
-        console.log(response.data)
     } catch (error) {
-        console.log(error.message)
+
     }
 }
 
@@ -42,9 +41,9 @@ exports.Delete = async () => {
         const response = await drive.files.delete({
             fileId: '106_AKvhirNM5ZWfWHMsojrgPuZqfoshR'
         })
-        console.log(response.data, response.status)
+
     } catch (error) {
-        console.log(error.message)
+
     }
 }
 
@@ -65,10 +64,9 @@ async function GeneratedPublicUrl(){
             fileId: fileId,
             fields: 'webViewLink, webContentLink'
         })
-        console.log(result.data)
 
     } catch (error) {
-        console.log(error.message)
+    
     }
 }
 
@@ -138,17 +136,12 @@ async function GeneratedPublicUrl(){
         fields: 'nextPageToken, files(id, name)',
         q: `'1yvYsyc_USWXbVUs9_LF4e9nDsiNrJpHm' in parents`
     })
-    console.log(drive)
-    console.log(res, '==== heree')
     const files = res.data.files;
     if (files.length === 0) {
-      console.log('No files found.');
       return;
     }
   
-    console.log('Files:');
     files.map((file) => {
-      console.log(`${file.name} (${file.id})`);
     });
   }
   

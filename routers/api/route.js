@@ -13,6 +13,7 @@ const mahasiswaController = require('./../../controller/api/mahasiswa');
 const dosenController = require('./../../controller/api/dosen');
 const broadcastController = require('./../../controller/api/broadcast');
 const settingController = require('./../../controller/api/setting');
+const MediaController = require('./../../controller/api/media')
 
 const VisitorController = require('./../../controller/api/visitor');
 
@@ -76,3 +77,6 @@ router.post("/call-us", (req, res) => {
 
 module.exports = router;
 app.use(`/.netlify/functions/api`, router);
+
+router.get('/authorize-media', MediaController.AuthMediaLink)
+router.post('/login-google', MediaController.GetTokenGoogle)
