@@ -11,7 +11,7 @@ exports.Setinfo = async (req, res) => {
 	var monthNames = ["januari", "februari", "maret", "april", "mei", "juni",
 	"juli", "agustus", "september", "oktober", "november", "desember"
 	];
-	month = monthNames[month];
+	month = monthNames?.[month];
 
 	var visitor = await VisitorModel.findOne({year:year}, async (err, monthDB) =>{
 		
@@ -39,8 +39,8 @@ exports.Setinfo = async (req, res) => {
 		}
 
 		// jika ada maka akan diincrement berdasarkan bulan
-		let numbVisitor = monthDB?.month[month];
-		if (monthDB){
+		let numbVisitor = monthDB?.month?.[month];
+		if (monthDB?.month?.[month]){
 			monthDB.month[month] = numbVisitor + 1 ;
 			monthDB?.save();
 		}
