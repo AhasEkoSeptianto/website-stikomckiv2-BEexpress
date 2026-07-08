@@ -3,32 +3,19 @@ const serverless = require("serverless-http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-require("dotenv").config();
 
+require("dotenv").config();
 require("../models/connect_monggoatlas");
 require("../config/myMediaGDrive");
 
 const app = express();
 
 app.use(bodyParser.json());
-
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-
 app.use(express.json());
-
-app.use(
-  express.urlencoded({
-    extended: true,
-  }),
-);
-
-app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   fileUpload({
@@ -40,8 +27,3 @@ app.use(
 app.use("/.netlify/functions/api", require("../routers/api/route"));
 
 exports.handler = serverless(app);
-
-// module.exports.handler = async (event, context) => {
-//   const result = await handler(event, context);
-//   return result;
-// };
