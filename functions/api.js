@@ -48,7 +48,7 @@ app.use(
   }),
 );
 
-app.use("/.netlify/functions/api", require("./routers/api/route"));
+app.use("/.netlify/functions/api", require("./../routers/api/route.js"));
 
 // module.exports = { app };
 // // app.listen(port, () => console.log("running at port 8080"));
