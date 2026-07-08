@@ -13,7 +13,8 @@ import "./../models/connect_monggoatlas.js";
 import "./../config/myMediaGDrive.js";
 
 dotenv.config();
-const require = createRequire(import.meta.url);
+
+const require = createRequire(import.meta.dirname);
 
 const router = require("../routers/api/route");
 
