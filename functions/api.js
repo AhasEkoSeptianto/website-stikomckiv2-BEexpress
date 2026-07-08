@@ -26,4 +26,9 @@ app.use(
 
 app.use("/.netlify/functions/api", require("../routers/api/route"));
 
-exports.handler = serverless(app);
+const handler = serverlessHttp(app);
+
+module.exports.handler = async (event, context) => {
+  const result = await handler(event, context);
+  return result;
+};
