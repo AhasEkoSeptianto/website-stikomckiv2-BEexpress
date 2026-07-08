@@ -1,7 +1,5 @@
 const router = require("express").Router();
 const isAuth = require("./../../midleware/auth");
-const express = require("express");
-const app = express();
 // models
 const User = require("./../../models/mongodb/users");
 const CallUs = require("./../../models/mongodb/call_us");
@@ -74,7 +72,6 @@ router.post("/call-us", (req, res) => {
 });
 
 module.exports = router;
-app.use(`/.netlify/functions/api`, router);
 
 router.get("/authorize-media", MediaController.AuthMediaLink);
 router.post("/login-google", MediaController.GetTokenGoogle);
