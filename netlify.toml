@@ -2,7 +2,7 @@
 functions = "netlify/functions"
 
 [functions]
-external_node_modules = ["express]
+external_node_modules = ["express"]
 
 [[redirects]]
 force=true
