@@ -1,30 +1,13 @@
-const express = require("express");
-const serverless = require("serverless-http");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
-
-require("dotenv").config();
-require("../models/connect_monggoatlas");
-require("../config/myMediaGDrive");
+import express from "express";
+import serverlessHttp from "serverless-http";
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  }),
-);
-
-app.use("/.netlify/functions/api", require("../routers/api/route"));
+app.get("/.netlify/functions/api", (req, res) => {
+  return res.json({
+    message: "hello world",
+  });
+});
 
 const handler = serverlessHttp(app);
 
