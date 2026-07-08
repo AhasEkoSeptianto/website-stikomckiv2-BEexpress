@@ -28,7 +28,7 @@ app.use(
   }),
 );
 
-app.use("/api", require("./routers/api/route"));
+// app.use("/api", require("./routers/api/route"));
 
-module.exports = { app };
+// module.exports = { app };
 // app.listen(port, () => console.log("running at port 8080"));
