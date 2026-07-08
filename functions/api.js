@@ -1,6 +1,6 @@
 import express from "express";
 import serverlessHttp from "serverless-http";
-const { app } = require("./../server");
+import { app } from "./../server";
 
 app.get("/.netlify/functions/api", (req, res) => {
   return res.json({
